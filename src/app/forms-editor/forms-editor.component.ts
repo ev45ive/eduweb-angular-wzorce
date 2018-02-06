@@ -6,13 +6,26 @@ import { Component, OnInit } from '@angular/core';
     <h3>Form editor</h3>
     <div class="row">
       <div class="col-3">
-        <form-field-editor></form-field-editor>
+        <form-field-editor [data]="fieldData" (dataChange)="formSaved($event)"></form-field-editor>
       </div>
     </div>
   `,
   styles: []
 })
 export class FormsEditorComponent implements OnInit {
+
+  fieldData = {
+    name: 'Default value',
+    active: true,
+    enabled: true,
+    hints: 'Test Hints',
+    type: 'text',
+  
+  }
+
+  formSaved(data){
+    console.log('saved',data)
+  }
 
   constructor() { }
 

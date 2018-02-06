@@ -1,54 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'form-field-editor',
   template: `
-    <div>
+    <form (ngSubmit)="save(formRef)" #formRef="ngForm">
       <div class="form-group">
         <label>Field Name</label>
-        <input type="text" class="form-control" [(ngModel)]="field_data.name">
+        <input type="text" class="form-control" [(ngModel)]="field_data.name" name="name">
       </div>
       <div class="form-check">
         <label class="form-check-label">
-          <input class="form-check-input" type="checkbox" [(ngModel)]="field_data.active"> Active
+          <input class="form-check-input" type="checkbox" [(ngModel)]="field_data.active" name="active"> Active
         </label>
       </div>
       <div class="form-check">
         <label class="form-check-label">
-          <input class="form-check-input" type="radio" [value]="true" [(ngModel)]="field_data.enabled"> Enabled 
+          <input class="form-check-input" type="radio" [value]="true" [(ngModel)]="field_data.enabled" name="enabled"> Enabled 
         </label>
       </div>
       <div class="form-check">
         <label class="form-check-label">
-          <input class="form-check-input" type="radio" [value]="false" [(ngModel)]="field_data.enabled"> Disabled 
+          <input class="form-check-input" type="radio" [value]="false" [(ngModel)]="field_data.enabled"  name="enabled"> Disabled 
         </label>
       </div>
       <div class="form-group">
         <label>Field Hints</label>
-        <textarea class="form-control" [(ngModel)]="field_data.hints"></textarea>
+        <textarea class="form-control" [(ngModel)]="field_data.hints" name="hints"></textarea>
       </div>
 
       <div class="form-group">
         <label>Field Type</label>
-        <select class="form-control" [(ngModel)]="field_data.type">
+        <select class="form-control" [(ngModel)]="field_data.type" name="type">
           <option *ngFor="let option of fieldTypes" [ngValue]="option.type">{{option.label}}</option>
         </select>
       </div>
 
+      <div class="form-group">
+        <button class="btn btn-sucess">Save</button>
+      </div>
+
+    </form>
     <hr>
       <pre>Model: {{ field_data | json }}</pre>
-    </div>
   `,
   styles: []
 })
 export class FormFieldEditorComponent implements OnInit {
 
-  field_data = {
-    name: 'Default value',
-    active: true,
-    enabled: true,
-    hints: 'Test Hints',
-    type: 'text',
+  @Input('data')
+  field_data = {}
+
+  @Output()
+  dataChange = new EventEmitter()
+
+  save(formRef){
+    this.dataChange.emit(this.field_data)
   }
 
   fieldTypes = [
