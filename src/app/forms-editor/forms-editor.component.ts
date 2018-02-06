@@ -23,10 +23,10 @@ export class FormsEditorComponent implements OnInit {
     enabled: true,
     hints: 'Test Hints',
     type: 'text',
-  
   }
 
   formSaved(data){
+    this.fieldData = data
     console.log('saved',data)
   }
 
