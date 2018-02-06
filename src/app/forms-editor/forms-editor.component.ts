@@ -8,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
       <div class="col-3">
         <form-field-editor [data]="fieldData" (dataChange)="formSaved($event)"></form-field-editor>
       </div>
+      <div class="col">
+        <pre>Outer Model: {{ fieldData | json }}</pre>
+      </div>
     </div>
   `,
   styles: []

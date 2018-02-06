@@ -41,7 +41,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
     </form>
     <hr>
-      <pre>Model: {{ field_data | json }}</pre>
+      <pre>Inner Model: {{ field_data | json }}</pre>
   `,
   styles: []
 })
