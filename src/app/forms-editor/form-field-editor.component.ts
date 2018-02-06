@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'form-field-editor',
   template: `
-    <p>
-      form-field-editor works!
-    </p>
+    <div>
+      Form Field Editor works!
+    </div>
   `,
   styles: []
 })
