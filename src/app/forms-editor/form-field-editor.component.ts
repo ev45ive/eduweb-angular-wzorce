@@ -4,12 +4,21 @@ import { Component, OnInit } from '@angular/core';
   selector: 'form-field-editor',
   template: `
     <div>
-      Form Field Editor works!
+      <div class="form-group">
+        <label>Field Name</label>
+        <input type="text" class="form-control" [(ngModel)]="field_data.name">
+      </div>
+
+      <pre>Model: {{ field_data | json }}</pre>
     </div>
   `,
   styles: []
 })
 export class FormFieldEditorComponent implements OnInit {
+
+  field_data = {
+    name: 'Default value'
+  }
 
   constructor() { }
 
