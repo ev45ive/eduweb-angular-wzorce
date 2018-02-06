@@ -28,11 +28,10 @@ import { Component, OnInit } from '@angular/core';
         <textarea class="form-control" [(ngModel)]="field_data.hints"></textarea>
       </div>
 
-
       <div class="form-group">
         <label>Field Type</label>
-        <select class="form-control" [(ngModel)]="field_data.type" [compareWith]="compareType" multiple>
-          <option *ngFor="let option of fieldTypes" [ngValue]="option">{{option.label}}</option>
+        <select class="form-control" [(ngModel)]="field_data.type">
+          <option *ngFor="let option of fieldTypes" [ngValue]="option.type">{{option.label}}</option>
         </select>
       </div>
 
@@ -49,11 +48,7 @@ export class FormFieldEditorComponent implements OnInit {
     active: true,
     enabled: true,
     hints: 'Test Hints',
-    type: [{ type: 'checkbox', label:'Checkbox Field'}],
-  }
-
-  compareType(type1, type2){
-      return  type2 && type1.type == type2.type
+    type: 'text',
   }
 
   fieldTypes = [
