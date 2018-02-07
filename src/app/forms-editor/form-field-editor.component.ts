@@ -38,10 +38,7 @@ import { NgForm } from '@angular/forms';
 
       <div class="form-group">
         <label>Extra</label>
-        <input type="text" class="form-control" 
-              ngModel 
-              (ngModelChange)="extraChanged($event)" 
-              [ngModelOptions]="{ updateOn:'blur', standalone: true, name:'extra' }">
+        <input type="text" class="form-control">
       </div>
 
       <div class="form-group">
