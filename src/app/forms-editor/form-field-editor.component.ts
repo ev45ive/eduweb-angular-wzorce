@@ -36,10 +36,19 @@ import { NgForm } from '@angular/forms';
         </select>
       </div>
 
-      <div class="form-group" ngModelGroup="extra">
-        <label>Extra</label>
-        <input type="text" class="form-control" ngModel name="option">
-      </div>
+      <label>Extra Options
+        <input type="checkbox" ngModel name="has_extra">
+      </label>
+
+      <ng-container ngModelGroup="extra" *ngIf="form.value.has_extra">
+        <div class="form-group" *ngFor="let option of extra_fields" [ngModelGroup]="option.key">
+          <label>Extra</label>
+          <input type="text" class="form-control" ngModel [name]="option.key">
+        </div>
+
+        <input #key class="form-control">
+        <button class="btn" (click)="addExtra(key.value)">Add Option</button>
+      </ng-container>
 
       <div class="form-group">
       <button class="btn btn-success">Save</button>
@@ -52,6 +61,12 @@ import { NgForm } from '@angular/forms';
   styles: []
 })
 export class FormFieldEditorComponent implements OnInit {
+
+  extra_fields = []
+
+  addExtra(key){
+    this.extra_fields.push({key})
+  }
 
   extraChanged(extra){
     console.log(extra)

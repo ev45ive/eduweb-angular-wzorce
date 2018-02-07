@@ -22,7 +22,7 @@ export class FormsEditorComponent implements OnInit {
     active: true,
     enabled: true,
     hints: 'Test Hints',
-    type: 'text',
+    type: 'text'
   }
 
   formSaved(data){
