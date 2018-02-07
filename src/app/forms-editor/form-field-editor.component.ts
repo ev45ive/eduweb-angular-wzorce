@@ -40,6 +40,8 @@ import { NgForm } from '@angular/forms';
       <button class="btn btn-success">Save</button>
       <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
       </div>
+
+      <pre>Model: {{form.value | json }}</pre>
     </form>
   `,
   styles: []

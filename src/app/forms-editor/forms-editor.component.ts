@@ -5,10 +5,10 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <h3>Form editor</h3>
     <div class="row">
-      <div class="col-3">
+      <div class="col-4">
         <form-field-editor [data]="fieldData" (dataChange)="formSaved($event)"></form-field-editor>
       </div>
-      <div class="col">
+      <div class="col" hidden>
         <pre>Outer Model: {{ fieldData | json }}</pre>
       </div>
     </div>
