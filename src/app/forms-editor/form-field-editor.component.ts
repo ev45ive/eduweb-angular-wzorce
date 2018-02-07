@@ -36,9 +36,9 @@ import { NgForm } from '@angular/forms';
         </select>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ngModelGroup="extra">
         <label>Extra</label>
-        <input type="text" class="form-control">
+        <input type="text" class="form-control" ngModel name="option">
       </div>
 
       <div class="form-group">
