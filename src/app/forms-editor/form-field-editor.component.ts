@@ -37,6 +37,14 @@ import { NgForm } from '@angular/forms';
       </div>
 
       <div class="form-group">
+        <label>Extra</label>
+        <input type="text" class="form-control" 
+              ngModel 
+              (ngModelChange)="extraChanged($event)" 
+              [ngModelOptions]="{ updateOn:'blur', standalone: true, name:'extra' }">
+      </div>
+
+      <div class="form-group">
       <button class="btn btn-success">Save</button>
       <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
       </div>
@@ -47,6 +55,10 @@ import { NgForm } from '@angular/forms';
   styles: []
 })
 export class FormFieldEditorComponent implements OnInit {
+
+  extraChanged(extra){
+    console.log(extra)
+  }
 
   @Input('data')
   field_data
@@ -59,7 +71,8 @@ export class FormFieldEditorComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(()=>{
-      this.form.setValue(this.field_data)
+      // this.form.setValue(this.field_data)
+      this.form.resetForm(this.field_data)
     },0)
   }
 
