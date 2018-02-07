@@ -42,17 +42,19 @@ import { NgForm } from '@angular/forms';
 
       <ng-container ngModelGroup="extra" *ngIf="form.value.has_extra">
         <div class="form-group" *ngFor="let option of extra_fields" [ngModelGroup]="option.key">
-          <label>Extra</label>
+          <label>{{option.key}}</label>
           <input type="text" class="form-control" ngModel [name]="option.key">
         </div>
 
-        <input #key class="form-control">
-        <button class="btn" (click)="addExtra(key.value)">Add Option</button>
+        <div class="input-group">
+          <input #key class="form-control">
+          <button class="btn" (click)="addExtra(key.value); key.value = ''">Add Option</button>
+        </div>
       </ng-container>
 
       <div class="form-group">
-      <button class="btn btn-success">Save</button>
-      <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+        <button class="btn btn-success">Save</button>
+        <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
       </div>
 
       <pre>Model: {{form.value | json }}</pre>
