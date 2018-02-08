@@ -36,28 +36,11 @@ import { NgForm } from '@angular/forms';
         </select>
       </div>
 
-      <label>Extra Options
-        <input type="checkbox" ngModel name="has_extra">
-      </label>
-
-      <ng-container ngModelGroup="extra" *ngIf="form.value.has_extra">
-        <div class="form-group" *ngFor="let option of extra_fields" [ngModelGroup]="option.key">
-          <label>{{option.key}}</label>
-          <input type="text" class="form-control" ngModel [name]="option.key">
-        </div>
-
-        <div class="input-group">
-          <input #key class="form-control">
-          <button class="btn" (click)="addExtra(key.value); key.value = ''">Add Option</button>
-        </div>
-      </ng-container>
-
       <div class="form-group">
         <button class="btn btn-success">Save</button>
         <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
       </div>
 
-      <pre>Model: {{form.value | json }}</pre>
     </form>
   `,
   styles: []
