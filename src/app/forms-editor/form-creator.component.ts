@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'form-preview',
+  selector: 'form-creator',
   template: `
     <p>
-      form-preview works!
+      form-creator works!
     </p>
   `,
   styles: []
 })
-export class FormPreviewComponent implements OnInit {
+export class FormCreatorComponent implements OnInit {
 
   constructor() { }
 

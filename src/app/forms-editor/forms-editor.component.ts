@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
     <h3>Form editor</h3>
     <div class="row">
       <div class="col">
-        <form-preview></form-preview>
+        <form-creator></form-creator>
       </div>
     </div>
   `,
