@@ -1,3 +1,5 @@
+import { Injector } from "@angular/core";
+
 class DataSource{
   data
   constructor(private config){
@@ -11,6 +13,32 @@ class ComponentA{
   }
 }
 
+const injector = Injector.create({
+  providers:[
+    {
+      provide: 'api_url',
+      useValue: 'http://some.real.server/'
+    },
+    {
+      provide: 'data_source',
+      useFactory: (url) => {
+        return new DataSource({
+          sourceUrl: url
+        })
+      },
+      deps:['api_url']
+    },
+    {
+      provide: 'componentA',
+      useClass: ComponentA,
+      deps:['data_source']
+    }
+  ]
+})
+
+console.log(injector.get('componentA'))
+
+/*
 /// app.ts
 class App{
   getApiUrl(){
@@ -49,3 +77,4 @@ class Test extends App{
   }
 }
 new Test()
+*/
