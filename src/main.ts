@@ -1,4 +1,3 @@
-
 class DataSource{
   data
   constructor(private config){
@@ -6,20 +5,11 @@ class DataSource{
   }
 }
 
-class MockDataSource extends DataSource{
-  data = 'test data'
-  constructor(config){
-    super(config)
-  }
-}
-
 class ComponentA{
-
   constructor(private dataSource){
     console.log('>>> Getting ' + this.dataSource.data)
   }
 }
-
 
 /// app.ts
 class App{
@@ -44,6 +34,14 @@ class App{
 new App()
 
 /// test.ts
+
+class MockDataSource extends DataSource{
+  data = 'test data'
+  constructor(config){
+    super(config)
+  }
+}
+
 class Test extends App{
   
   getDataSource(api_url){
