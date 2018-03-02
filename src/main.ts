@@ -1,17 +1,44 @@
-import { Injector } from "@angular/core";
+import { Injector, Injectable, Inject, ReflectiveInjector, InjectionToken } from "@angular/core";
 
+export const DATASOURCE_CONFIG = new InjectionToken('Data Source Configuration')
+
+@Injectable()
 class DataSource{
   data
-  constructor(private config){
+  constructor(@Inject(DATASOURCE_CONFIG) private config){
     this.data = ' data from ' + config.sourceUrl
   }
 }
 
+@Injectable()
 class ComponentA{
-  constructor(private dataSource){
+  constructor(@Inject(DataSource) private dataSource){
     console.log('>>> Getting ' + this.dataSource.data)
   }
 }
+
+class MockDataSource extends DataSource{
+  data = 'test data'
+  constructor(config){
+    super(config)
+  }
+}
+
+const reflective = ReflectiveInjector.resolveAndCreate([
+  {
+    provide: DATASOURCE_CONFIG,
+    useValue: {
+      sourceUrl: 'http://some.real.server/'
+    }
+  },
+  DataSource,
+  // {
+  //   provide: DataSource,
+  //   useClass: MockDataSource
+  // }
+  ComponentA
+])
+console.log(reflective.get(ComponentA))
 
 const injector = Injector.create({
   providers:[
@@ -36,7 +63,7 @@ const injector = Injector.create({
   ]
 })
 
-console.log(injector.get('componentA'))
+//console.log(injector.get('componentA'))
 
 /*
 /// app.ts
@@ -63,12 +90,6 @@ new App()
 
 /// test.ts
 
-class MockDataSource extends DataSource{
-  data = 'test data'
-  constructor(config){
-    super(config)
-  }
-}
 
 class Test extends App{
   
