@@ -12,20 +12,14 @@ class DataSource{
 
 @Injectable()
 class ComponentA{
+  message = 'welcome message'
+
   constructor(@Inject(DataSource) private dataSource){
     console.log('>>> Getting ' + this.dataSource.data)
   }
 }
 
-@Injectable()
-class MockDataSource extends DataSource{
-  data = 'test data'
-  constructor(){
-    super({ sourceUrl: 'mock'})
-  }
-}
-
-const providers = [
+const injector = ReflectiveInjector.resolveAndCreate([
   {
     provide: DATASOURCE_CONFIG,
     useValue: {
@@ -34,17 +28,5 @@ const providers = [
   },
   DataSource,
   ComponentA
-]
-const reflective = ReflectiveInjector.resolveAndCreate(providers)
-console.log(reflective.get(ComponentA))
-
-
-const test = ReflectiveInjector.resolveAndCreate([
-  providers,
-  {
-    provide: DataSource,
-    useClass: MockDataSource
-  },
-  ComponentA
 ])
-console.log(test.get(ComponentA))
+console.log(injector.get(ComponentA))
