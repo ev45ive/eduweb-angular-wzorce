@@ -6,14 +6,23 @@
       </h1>
 
       <div class="row">
-        <div class="col">
-          <button (click)="hide = !hide">Toggle</button>
-          <items-list *ngIf="!hide"></items-list>
-        </div>
-        <div class="col">
-          <button (click)="hide2 = !hide2">Toggle</button>
-          <items-list *ngIf="!hide2"></items-list>
-        </div>
+        <selection-provider class="row">
+
+          <div class="col">
+            <button (click)="hide = !hide">Toggle</button>
+            <items-list *ngIf="!hide"></items-list>
+          </div>
+          <div class="col">
+            <button (click)="hide2 = !hide2">Toggle</button>
+            <items-list *ngIf="!hide2"></items-list>
+          </div>
+
+        </selection-provider>
+
+        <selection-provider class="col">
+          <button (click)="hide3 = !hide3">Toggle</button>
+          <items-list *ngIf="!hide3"></items-list>
+        </selection-provider>
       </div>
     </div>
   </div>

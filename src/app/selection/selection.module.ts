@@ -2,16 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelectableDirective } from './selectable.directive';
 import { SelectionService } from './selection.service';
+import { SelectionProviderComponent } from './selection-provider.component';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    SelectableDirective
+    SelectableDirective,
+    SelectionProviderComponent
   ],
   exports:[
-    SelectableDirective
+    SelectableDirective,
+    SelectionProviderComponent
   ],
   providers:[
     // SelectionService

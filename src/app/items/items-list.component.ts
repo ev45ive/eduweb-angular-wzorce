@@ -12,9 +12,9 @@ import { SelectionService } from '../selection/selection.service';
     </div>
     <input class="form-control" (keyup.enter)=" items.push({name:$event.target.value})">
   `,
-  viewProviders:[
-    SelectionService
-  ],
+  // viewProviders:[
+  //   SelectionService
+  // ],
   styles: []
 })
 export class ItemsListComponent implements OnInit {

@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ItemsModule } from './items/items.module';
 import { SelectionModule } from './selection/selection.module';
+import { SharedModule } from './shared/shared.module';
 
 
 
@@ -14,6 +15,7 @@ import { SelectionModule } from './selection/selection.module';
   ],
   imports: [
     BrowserModule,
+    SharedModule,
     ItemsModule.forRoot()
   ],
   providers: [

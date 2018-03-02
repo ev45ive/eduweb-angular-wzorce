@@ -6,7 +6,7 @@ import { SelectionService } from './selection.service';
 })
 export class SelectableDirective {
 
-  constructor(@Host() private selection:SelectionService<any>) {
+  constructor(private selection:SelectionService<any>) {
     console.log('hello from selectable')
   }
 
