@@ -4,6 +4,9 @@
       <h1>
         Welcome to {{ title }}!
       </h1>
+
+      <button (click)="hide = !hide">Toggle</button>
+      <items-list *ngIf="!hide"></items-list>
     </div>
   </div>
 </div>
