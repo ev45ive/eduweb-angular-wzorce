@@ -2,11 +2,14 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ItemsListComponent } from './items-list.component';
 import { ItemsDataService } from './items-data.service';
+import { SharedModule } from '../shared/shared.module';
+import { SelectionModule } from '../selection/selection.module';
 
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule,
   ],
   declarations: [
     ItemsListComponent

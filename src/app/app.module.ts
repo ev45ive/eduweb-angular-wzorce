@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ItemsModule } from './items/items.module';
+import { SelectionModule } from './selection/selection.module';
 
 
 

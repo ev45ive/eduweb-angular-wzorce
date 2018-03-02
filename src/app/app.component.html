@@ -5,8 +5,16 @@
         Welcome to {{ title }}!
       </h1>
 
-      <button (click)="hide = !hide">Toggle</button>
-      <items-list *ngIf="!hide"></items-list>
+      <div class="row">
+        <div class="col">
+          <button (click)="hide = !hide">Toggle</button>
+          <items-list *ngIf="!hide"></items-list>
+        </div>
+        <div class="col">
+          <button (click)="hide2 = !hide2">Toggle</button>
+          <items-list *ngIf="!hide2"></items-list>
+        </div>
+      </div>
     </div>
   </div>
 </div>
