@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SelectableDirective } from './selectable.directive';
 import { SelectionService } from './selection.service';
 import { SelectionProviderComponent } from './selection-provider.component';
+import { SelectionDirective } from './selection.directive';
 
 @NgModule({
   imports: [
@@ -10,11 +11,13 @@ import { SelectionProviderComponent } from './selection-provider.component';
   ],
   declarations: [
     SelectableDirective,
-    SelectionProviderComponent
+    SelectionProviderComponent,
+    SelectionDirective
   ],
   exports:[
     SelectableDirective,
-    SelectionProviderComponent
+    SelectionProviderComponent,
+    SelectionDirective
   ],
   providers:[
     // SelectionService
