@@ -17,14 +17,15 @@ class ComponentA{
   }
 }
 
+@Injectable()
 class MockDataSource extends DataSource{
   data = 'test data'
-  constructor(config){
-    super(config)
+  constructor(){
+    super({ sourceUrl: 'mock'})
   }
 }
 
-const reflective = ReflectiveInjector.resolveAndCreate([
+const providers = [
   {
     provide: DATASOURCE_CONFIG,
     useValue: {
@@ -32,44 +33,18 @@ const reflective = ReflectiveInjector.resolveAndCreate([
     }
   },
   DataSource,
-  // {
-  //   provide: DataSource,
-  //   useClass: MockDataSource
-  // }
   ComponentA
-])
+]
+const reflective = ReflectiveInjector.resolveAndCreate(providers)
 console.log(reflective.get(ComponentA))
 
 
-/// app.ts
-class App{
-  getApiUrl(){
-    return 'http://some.real.server/'
-  }
-  
-  getDataSource(api_url){
-    return new DataSource({
-      sourceUrl: api_url
-    })
-  }
-
-  getComponent(dataSource){
-    new ComponentA(dataSource)
-  }
-
-  constructor(){
-    this.getComponent(this.getDataSource(this.getApiUrl()))
-  }
-}
-new App()
-
-/// test.ts
-
-
-class Test extends App{
-  
-  getDataSource(api_url){
-    return new MockDataSource({})
-  }
-}
-new Test()
+const test = ReflectiveInjector.resolveAndCreate([
+  providers,
+  {
+    provide: DataSource,
+    useClass: MockDataSource
+  },
+  ComponentA
+])
+console.log(test.get(ComponentA))
