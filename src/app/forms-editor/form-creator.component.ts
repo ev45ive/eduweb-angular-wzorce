@@ -1,15 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'form-creator',
   template: `
-    <p>
-      form-creator works!
-    </p>
-
-    <div class="form-group">
-      <input type="text" class="form-control" [formControl]="formTitle">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <input type="text" class="form-control" [formControl]="formTitle">
+        </div>
+        
+        <div class="form-group" [formGroup]="fieldOptions">
+          <label>Label:</label>
+          <input type="text" class="form-control" formControlName="label">
+        </div>
+      </div>
+      <div class="col">
+        <pre>{{fieldOptions.value | json }}</pre>
+      </div>
     </div>
   `,
   styles: []
@@ -17,12 +25,18 @@ import { FormControl } from '@angular/forms';
 export class FormCreatorComponent implements OnInit {
 
   formTitle: FormControl
+  fieldOptions: FormGroup
 
   constructor() { 
 
     this.formTitle = new FormControl('batman')
+
+    this.fieldOptions = new FormGroup({
+      type: new FormControl('text'),
+      label: new FormControl('')
+    })
   
-    console.log(this.formTitle)
+    console.log(this.fieldOptions)
   }
 
   ngOnInit() {
