@@ -15,7 +15,7 @@ import { FormControl, FormGroup, AbstractControl } from '@angular/forms';
           <input type="text" class="form-control" formControlName="label">
         </div>
       </div>
-      <div class="col">
+      <div class="col-4">
         <pre>{{fieldOptions.value | json }}</pre>
       </div>
     </div>
