@@ -19,6 +19,10 @@ import { FormControl, FormGroup, AbstractControl, FormArray, FormBuilder } from 
               <div class="form-group" [formGroup]="field">
                 <label>Label:</label>
                 <input type="text" class="form-control" formControlName="label">
+                <label><input type="checkbox" (change)="addHints(field, $event.target.checked)"> Hints </label>
+                <div *ngIf="field.get('hints')">
+                  <input type="text" class="form-control" formControlName="hints">
+                </div>
               </div>
             </div>
 
@@ -30,14 +34,17 @@ import { FormControl, FormGroup, AbstractControl, FormArray, FormBuilder } from 
               </div>
               <div class="form-group">
                 <label>Checkbox Options</label>
-                <div class="input-group" *ngFor="let option of getControlsList(field.get('options'))" [formGroup]="option">
+                <div class="input-group" 
+                  *ngFor="let option of getControlsList(field.get('options')); let i = index" [formGroup]="option">
                   <div class="input-group-prepend">
                       <div class="input-group-text">
                         <input type="checkbox" class="form-check" formControlName="selected">
                     </div>
                   </div>
                   <input type="text" class="form-control" formControlName="value">
+                  <span class="close" (click)="removeOption(field.get('options'), i)">&times;</span>
                 </div>
+                <button class="btn mt-1" (click)="addOption(field.get('options'))">Add Option</button>
               </div>
   
             </div>
@@ -73,8 +80,17 @@ export class FormCreatorComponent implements OnInit {
   createTextField(){
     return this.fb.group({
       type: this.fb.control('text'),
-      label: this.fb.control('')
+      label: this.fb.control(''),
+      // hints: this.fb.control('')
     })
+  }
+
+  addHints(field:FormGroup, checked:boolean){
+    if(checked){
+      field.addControl('hints', this.fb.control(''))
+    }else{
+      field.removeControl('hints')
+    }
   }
 
   createOptionsField(){
@@ -89,6 +105,14 @@ export class FormCreatorComponent implements OnInit {
     })
   }
 
+  addOption(options: FormArray){
+    options.push( this.createOption() )
+  }
+
+  removeOption(options: FormArray, index:number){
+    options.removeAt(index)
+  }
+
   getControlsList(fields:AbstractControl){
     if(!(fields instanceof FormArray)){
       return []
@@ -96,7 +120,7 @@ export class FormCreatorComponent implements OnInit {
     return fields.controls
   }
 
-  createOption(defaultValue, selected = false){
+  createOption(defaultValue = '', selected = false){
     return this.fb.group({
       selected: this.fb.control(selected),
       value: this.fb.control(defaultValue)
