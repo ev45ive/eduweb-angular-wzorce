@@ -1,5 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, AbstractControl, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, AbstractControl, FormArray, FormBuilder } from '@angular/forms';
+
+class SpecialFormGroup extends FormGroup{
+  constructor(controls){
+    super(controls)
+    console.log('Special Group', Object.keys(controls))
+  }
+}
+
+export class SpecialFormBuilder extends FormBuilder{
+  group(controls){
+    return new SpecialFormGroup(controls)
+  }
+}
 
 @Component({
   selector: 'form-creator',
@@ -34,6 +47,12 @@ import { FormControl, FormGroup, AbstractControl, FormArray } from '@angular/for
       </div>
     </div>
   `,
+  providers:[
+    {
+      provide: FormBuilder,
+      useClass: SpecialFormBuilder
+    }
+  ],
   styles: []
 })
 export class FormCreatorComponent implements OnInit {
@@ -42,28 +61,26 @@ export class FormCreatorComponent implements OnInit {
   fieldOptions: FormGroup
   optionsForField: FormArray
 
-  constructor() { 
+  constructor(private fb:FormBuilder) { 
 
-    this.formTitle = new FormControl('batman')
+    this.formTitle = this.fb.control('batman')
 
-    this.fieldOptions = new FormGroup({
-      type: new FormControl('text'),
-      label: new FormControl('')
+    this.fieldOptions = this.fb.group({
+      type: this.fb.control('text'),
+      label: this.fb.control('')
     })
   
-    this.optionsForField = new FormArray([
+    this.optionsForField = this.fb.array([
       this.createOption('Test 1'),
       this.createOption('Test 2'),
       this.createOption('Test 3'),
     ])
-
-    console.log(this.fieldOptions)
   }
 
   createOption(defaultValue, selected = false){
-    return new FormGroup({
-      selected: new FormControl(selected),
-      value: new FormControl(defaultValue)
+    return this.fb.group({
+      selected: this.fb.control(selected),
+      value: this.fb.control(defaultValue)
     })
   }
 
