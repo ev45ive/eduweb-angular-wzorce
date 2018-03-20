@@ -1,19 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, AbstractControl, FormArray, FormBuilder } from '@angular/forms';
 
-class SpecialFormGroup extends FormGroup{
-  constructor(controls){
-    super(controls)
-    console.log('Special Group', Object.keys(controls))
-  }
-}
-
-export class SpecialFormBuilder extends FormBuilder{
-  group(controls){
-    return new SpecialFormGroup(controls)
-  }
-}
-
 @Component({
   selector: 'form-creator',
   template: `
@@ -47,12 +34,6 @@ export class SpecialFormBuilder extends FormBuilder{
       </div>
     </div>
   `,
-  providers:[
-    {
-      provide: FormBuilder,
-      useClass: SpecialFormBuilder
-    }
-  ],
   styles: []
 })
 export class FormCreatorComponent implements OnInit {
