@@ -8,54 +8,40 @@ import { FormControl, FormGroup, AbstractControl, FormArray, FormBuilder } from 
       <div class="col">
       <form [formGroup]="formDefinition">
         <div class="form-group">
-          <input type="text" class="form-control" formControlName="title">
+          <input type="text" class="form-control" formControlName="title" placeholder="Form name">
         </div>
+        
+        <div *ngFor="let field of getControlsList(this.formDefinition.get('fields')); let i = index" class="border rounded p-2 mb-2">
 
-        <div *ngFor="let field of getControlsList(this.formDefinition.get('fields'))" class="border rounded p-2 mb-2">
+          <div class="close float-right pr-2" (click)="removeField(this.formDefinition.get('fields'),i)">&times;</div>
           <div [ngSwitch]="field.get('type').value">
 
             <div *ngSwitchCase=" 'text' ">
-              <h6>Text Field:</h6>
-              <div class="form-group" [formGroup]="field">
-                <label>Label:</label>
-                <input type="text" class="form-control" formControlName="label">
-                <label><input type="checkbox" (change)="addHints(field, $event.target.checked)"> Hints </label>
-                <div *ngIf="field.get('hints')">
-                  <input type="text" class="form-control" formControlName="hints">
-                </div>
-              </div>
+              <text-field [control]="field"></text-field>
             </div>
 
             <div *ngSwitchCase=" 'options' ">
-              <h6>Options Field:</h6>
-              <div class="form-group" [formGroup]="field">
-                <label>Label:</label>
-                <input type="text" class="form-control" formControlName="label">
-              </div>
-              <div class="form-group">
-                <label>Checkbox Options</label>
-                <div class="input-group" 
-                  *ngFor="let option of getControlsList(field.get('options')); let i = index" [formGroup]="option">
-                  <div class="input-group-prepend">
-                      <div class="input-group-text">
-                        <input type="checkbox" class="form-check" formControlName="selected">
-                    </div>
-                  </div>
-                  <input type="text" class="form-control" formControlName="value">
-                  <span class="close" (click)="removeOption(field.get('options'), i)">&times;</span>
-                </div>
-                <button class="btn mt-1" (click)="addOption(field.get('options'))">Add Option</button>
-              </div>
-  
+              <options-field [control]="field"></options-field>
             </div>
           </div>
         </div>
+        
+        <div class="input-group my-2" [formGroup]="createField">
+          <select formControlName="type" class="form-control">
+            <option value="text">Text Field</option>
+            <option value="options">Options Field</option>
+          </select>
+          <input type="text" class="form-control" placeholder="Field name" formControlName="name">
+          <button (click)="addField()" class="btn">Add Field</button>
+        </div>
+
+
         
       </form>
 
       
       </div>
-      <div class="col-4">
+      <div class="col-6">
         <pre>{{formDefinition.value | json }}</pre>
       </div>
     </div>
@@ -66,51 +52,59 @@ export class FormCreatorComponent implements OnInit {
 
   formDefinition: FormGroup
 
+  createField: FormGroup
+
+  addField(){
+    const fields = this.formDefinition.get('fields') as FormArray
+    const fieldDefinition = this.createField.value
+    if(!fieldDefinition.name){
+      return
+    }
+    switch(fieldDefinition.type){
+      case 'options':
+        fields.push(this.createOptionsField(fieldDefinition))
+      break;
+      case 'text':
+      default:
+        fields.push(this.createTextField(fieldDefinition))
+    }
+    this.createField.reset({
+      type:'text'
+    })
+  }
+
+  removeField(fields: FormArray, index: number){
+    fields.removeAt(index)
+  }
+
   constructor(private fb:FormBuilder) { 
+
+    this.createField = this.fb.group({
+      name: this.fb.control(''),
+      type: this.fb.control('text')
+    })
 
     this.formDefinition = this.fb.group({
       title: this.fb.control(''),
-      fields: this.fb.array([
-        this.createTextField(),
-        this.createOptionsField()
-      ])
+      fields: this.fb.array([])
     })
   }
 
-  createTextField(){
+  createTextField({name, label = ''}){
     return this.fb.group({
       type: this.fb.control('text'),
-      label: this.fb.control(''),
-      // hints: this.fb.control('')
+      name: this.fb.control(name),
+      label: this.fb.control(label),
     })
   }
 
-  addHints(field:FormGroup, checked:boolean){
-    if(checked){
-      field.addControl('hints', this.fb.control(''))
-    }else{
-      field.removeControl('hints')
-    }
-  }
 
-  createOptionsField(){
+  createOptionsField({ name, label = '' }){
     return this.fb.group({
       type: this.fb.control('options'),
       label: this.fb.control(''),
-      options: this.fb.array([
-        this.createOption('Test 1'),
-        this.createOption('Test 2'),
-        this.createOption('Test 3'),
-      ])
+      options: this.fb.array([])
     })
-  }
-
-  addOption(options: FormArray){
-    options.push( this.createOption() )
-  }
-
-  removeOption(options: FormArray, index:number){
-    options.removeAt(index)
   }
 
   getControlsList(fields:AbstractControl){
@@ -126,6 +120,7 @@ export class FormCreatorComponent implements OnInit {
       value: this.fb.control(defaultValue)
     })
   }
+
 
   ngOnInit() {
   }
