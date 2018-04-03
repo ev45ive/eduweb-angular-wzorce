@@ -9,31 +9,40 @@ import { FormBuilder, Validators } from '@angular/forms';
       <div class="form-group">
         <label>Username</label>
         <input type="text" class="form-control" formControlName="username">
-        <div *ngIf="registrationForm.get('username').hasError('required')">
-          Field is required
-        </div>
-        <div *ngIf="registrationForm.get('username').getError('minlength') as error">
-          Field has to have at least {{error.requiredLength}} letters
+        <div class="validation-feedback" 
+            *ngIf="registrationForm.get('username').touched || registrationForm.get('username').dirty">
+          <div *ngIf="registrationForm.get('username').hasError('required')">
+            Field is required
+          </div>
+          <div *ngIf="registrationForm.get('username').getError('minlength') as error">
+            Field has to have at least {{error.requiredLength}} letters
+          </div>
         </div>
       </div>
       <div class="form-group">
         <label>E-Mail:</label>
         <input type="text" class="form-control" formControlName="email">
-        <div *ngIf="registrationForm.get('email').hasError('required')">
-          Field is required
-        </div>
-        <div *ngIf="registrationForm.get('email').hasError('email')">
-          E-mail format is incorrect
+        <div class="validation-feedback"
+            *ngIf="registrationForm.get('email').touched || registrationForm.get('email').dirty">
+          <div *ngIf="registrationForm.get('email').hasError('required')">
+            Field is required
+          </div>
+          <div *ngIf="registrationForm.get('email').hasError('email')">
+            E-mail format is incorrect
+          </div>
         </div>
       </div>
       <div class="form-group">
         <label>Password</label>
         <input type="text" class="form-control" formControlName="password">
-        <div *ngIf="registrationForm.get('password').hasError('required')">
-          Field is required
-        </div>
-        <div *ngIf="registrationForm.get('password').hasError('pattern')">
-          Password has to contain Uppercase, Lowercase letters and number
+        <div class="validation-feedback"
+            *ngIf="registrationForm.get('password').touched || registrationForm.get('password').dirty">
+          <div *ngIf="registrationForm.get('password').hasError('required')">
+            Field is required
+          </div>
+          <div *ngIf="registrationForm.get('password').hasError('pattern')">
+            Password has to contain Uppercase, Lowercase letters and number
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -45,7 +54,16 @@ import { FormBuilder, Validators } from '@angular/forms';
       </div>
     </form>
   `,
-  styles: []
+  styles: [`
+    form .ng-invalid.ng-touched,
+    form .ng-invalid.ng-dirty {
+        border: 2px solid red !important;
+    }
+    form .ng-invalid.ng-touched ~ .validation-feedback,
+    form .ng-invalid.ng-dirty ~ .validation-feedback {
+      color: red;
+    }
+  `]
 })
 export class RegistrationComponent implements OnInit {
 
