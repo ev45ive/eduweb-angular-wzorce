@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, ValidatorFn, AsyncValidatorFn, ValidationErrors, FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 
 @Component({
   selector: 'registration',
@@ -9,6 +11,7 @@ import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, Fo
       <div class="form-group">
         <label>Username</label>
         <input type="text" class="form-control" formControlName="username">
+        <div *ngIf="registrationForm.get('username').pending">Validating username ...</div>
         <div class="validation-feedback" 
             *ngIf="registrationForm.get('username').touched || registrationForm.get('username').dirty">
           <div *ngIf="registrationForm.get('username').hasError('required')">
@@ -16,6 +19,9 @@ import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, Fo
           </div>
           <div *ngIf="registrationForm.get('username').getError('minlength') as error">
             Field has to have at least {{error.requiredLength}} letters
+          </div>
+          <div *ngIf="registrationForm.get('username').hasError('invalid-username')">
+            Username is taken or invalid
           </div>
         </div>
       </div>
@@ -82,6 +88,8 @@ export class RegistrationComponent implements OnInit {
     username: this.form.control('', [
       Validators.required,
       Validators.minLength(3)
+    ], [
+      this.validateUsername
     ]),
     email: this.form.control('', [
       Validators.required,
@@ -90,21 +98,37 @@ export class RegistrationComponent implements OnInit {
     password: this.form.control('', [
       Validators.required,
       this.validatePassword({
-        lowercase:true, 
-        uppercase:true,
-        number:true
+        lowercase: true,
+        uppercase: true,
+        number: true
       })
     ]),
     repeat_password: this.form.control('')
   })
 
-  validatePassword(options:{
-    uppercase?:boolean;
-    lowercase?:boolean;
-    number?:boolean;
-    special?:boolean;
-  }):ValidatorFn{
-  
+  validateUsername<AsyncValidatorFn>(control: FormControl) {
+    const value = control.value;
+
+    return Observable.create( (observer:Observer<ValidationErrors | null>) => {
+        setTimeout(()=>{
+          const notAllowed = ['demo','admin','user']
+          const notValid = notAllowed.includes(value)
+          const result = notValid? {
+            'invalid-username': value
+          } : null
+          observer.next(result)
+          observer.complete()
+        },2000)
+    })
+  }
+
+  validatePassword(options: {
+    uppercase?: boolean;
+    lowercase?: boolean;
+    number?: boolean;
+    special?: boolean;
+  }): ValidatorFn {
+
     return (control: FormControl) => {
 
       const hasUppercase = control.value.match(/[A-Z]/)
@@ -115,24 +139,24 @@ export class RegistrationComponent implements OnInit {
       const errors = {}
       let valid = true
 
-      if(options.lowercase && !hasLowercase){
+      if (options.lowercase && !hasLowercase) {
         errors['lowercase'] = true
         valid = false
       }
-      if(options.uppercase && !hasUppercase){
+      if (options.uppercase && !hasUppercase) {
         errors['uppercase'] = true
         valid = false
       }
-      if(options.number && !hasNumber){
+      if (options.number && !hasNumber) {
         errors['number'] = true
         valid = false
       }
-      if(options.special && !hasSpecial){
+      if (options.special && !hasSpecial) {
         errors['special'] = true
         valid = false
       }
 
-      return valid? null : {
+      return valid ? null : {
         'password': errors
       }
     }
