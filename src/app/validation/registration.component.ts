@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'registration',
@@ -42,16 +42,22 @@ import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl } f
           </div>
           <div *ngIf="registrationForm.get('password').getError('password') as error">
             Password has to contain
-              <span *ngIf="error.lowercase"> lowercase letters </span>
-              <span *ngIf="error.uppercase"> uppercase letters </span>
-              <span *ngIf="error.number"> numbers </span>
-              <span *ngIf="error.special"> special characters </span>
+              <div *ngIf="error.lowercase"> - lowercase letters </div>
+              <div *ngIf="error.uppercase"> - uppercase letters </div>
+              <div *ngIf="error.number"> - numbers </div>
+              <div *ngIf="error.special"> - special characters </div>
           </div>
         </div>
       </div>
       <div class="form-group">
         <label>Repeat Password</label>
         <input type="text" class="form-control" formControlName="repeat_password">
+        <div class="validation-feedback"
+        *ngIf="registrationForm.get('repeat_password').touched || registrationForm.get('repeat_password').dirty">
+          <div *ngIf="registrationForm.hasError('password_match')">
+            Passwords must match
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <input type="submit" class="btn btn-success btn-block" value="Register">
@@ -87,9 +93,19 @@ export class RegistrationComponent implements OnInit {
         uppercase:true,
         number:true
       })
-      // Validators.pattern('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$')
     ]),
-    repeat_password: this.form.control(''),
+    repeat_password: this.form.control('')
+  },{
+    validator: (control:FormGroup) => {
+      const values = control.value
+
+      if(values.password !== values.repeat_password){
+        return {
+          password_match:true
+        }
+      }
+      return null
+    }
   })
 
   validatePassword(options:{
