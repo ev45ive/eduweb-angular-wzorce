@@ -12,40 +12,21 @@ import { Observer } from 'rxjs/Observer';
         <label>Username</label>
         <input type="text" class="form-control" formControlName="username">
         <div *ngIf="registrationForm.get('username').pending">Validating username ...</div>
-        <div class="validation-feedback" 
-            *ngIf="registrationForm.get('username').touched || registrationForm.get('username').dirty">
-          <div *ngIf="registrationForm.get('username').hasError('required')">
-            Field is required
-          </div>
-          <div *ngIf="registrationForm.get('username').getError('minlength') as error">
-            Field has to have at least {{error.requiredLength}} letters
-          </div>
+        <validation-feedback controlName="username">
           <div *ngIf="registrationForm.get('username').hasError('invalid-username')">
             Username is taken or invalid
           </div>
-        </div>
+        </validation-feedback>
       </div>
       <div class="form-group">
         <label>E-Mail:</label>
         <input type="text" class="form-control" formControlName="email">
-        <div class="validation-feedback"
-            *ngIf="registrationForm.get('email').touched || registrationForm.get('email').dirty">
-          <div *ngIf="registrationForm.get('email').hasError('required')">
-            Field is required
-          </div>
-          <div *ngIf="registrationForm.get('email').hasError('email')">
-            E-mail format is incorrect
-          </div>
-        </div>
+        <validation-feedback controlName="email"></validation-feedback>
       </div>
       <div class="form-group">
         <label>Password</label>
         <input type="text" class="form-control" formControlName="password">
-        <div class="validation-feedback"
-            *ngIf="registrationForm.get('password').touched || registrationForm.get('password').dirty">
-          <div *ngIf="registrationForm.get('password').hasError('required')">
-            Field is required
-          </div>
+        <validation-feedback controlName="password">
           <div *ngIf="registrationForm.get('password').getError('password') as error">
             Password has to contain
               <div *ngIf="error.lowercase"> - lowercase letters </div>
@@ -53,18 +34,17 @@ import { Observer } from 'rxjs/Observer';
               <div *ngIf="error.number"> - numbers </div>
               <div *ngIf="error.special"> - special characters </div>
           </div>
-        </div>
+        </validation-feedback>
       </div>
       <div class="form-group">
         <label>Repeat Password</label>
         <input type="text" class="form-control" formControlName="repeat_password" 
                                                 [fieldsMatch]="registrationForm.get('password')">
-        <div class="validation-feedback"
-        *ngIf="registrationForm.get('repeat_password').touched || registrationForm.get('repeat_password').dirty">
+        <validation-feedback controlName="repeat_password">
           <div *ngIf="registrationForm.get('repeat_password').hasError('password_match')">
             Passwords must match
           </div>
-        </div>
+        </validation-feedback>
       </div>
       <div class="form-group">
         <input type="submit" class="btn btn-success btn-block" value="Register">
@@ -75,10 +55,6 @@ import { Observer } from 'rxjs/Observer';
     form .ng-invalid.ng-touched,
     form .ng-invalid.ng-dirty {
         border: 2px solid red !important;
-    }
-    form .ng-invalid.ng-touched ~ .validation-feedback,
-    form .ng-invalid.ng-dirty ~ .validation-feedback {
-      color: red;
     }
   `]
 })
