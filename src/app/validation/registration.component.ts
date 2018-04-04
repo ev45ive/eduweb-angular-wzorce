@@ -51,10 +51,11 @@ import { FormBuilder, Validators, ValidatorFn, ValidationErrors, FormControl, Fo
       </div>
       <div class="form-group">
         <label>Repeat Password</label>
-        <input type="text" class="form-control" formControlName="repeat_password">
+        <input type="text" class="form-control" formControlName="repeat_password" 
+                                                [fieldsMatch]="registrationForm.get('password')">
         <div class="validation-feedback"
         *ngIf="registrationForm.get('repeat_password').touched || registrationForm.get('repeat_password').dirty">
-          <div *ngIf="registrationForm.hasError('password_match')">
+          <div *ngIf="registrationForm.get('repeat_password').hasError('password_match')">
             Passwords must match
           </div>
         </div>
@@ -95,17 +96,6 @@ export class RegistrationComponent implements OnInit {
       })
     ]),
     repeat_password: this.form.control('')
-  },{
-    validator: (control:FormGroup) => {
-      const values = control.value
-
-      if(values.password !== values.repeat_password){
-        return {
-          password_match:true
-        }
-      }
-      return null
-    }
   })
 
   validatePassword(options:{
