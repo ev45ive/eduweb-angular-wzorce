@@ -6,9 +6,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   <form class="input-group mb-2" (submit)="search(queryRef.value)">
     <input class="form-control" type="search" placeholder="Search" #queryRef autofocus>
     <div class="input-group-append">
-      <div class="input-group-text">
-        <input type="checkbox">
-      </div>
       <button class="btn btn-outline-success" type="submit">Search</button>
     </div>
   </form>

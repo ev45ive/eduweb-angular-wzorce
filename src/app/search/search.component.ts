@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http'
+import { SearchService } from './search.service';
 
 @Component({
   selector: 'search',
@@ -11,7 +12,7 @@ import { HttpClient, HttpParams } from '@angular/common/http'
     </div>
     <div class="row">
       <div class="col">
-        <results-list [items]="posts"></results-list>
+        <results-list [items]="posts$ | async"></results-list>
       </div>
     </div>
   `,
@@ -21,20 +22,13 @@ export class SearchComponent implements OnInit {
 
   posts
 
+  posts$
+
   search(query){
-    const params = new HttpParams({
-      fromObject:{
-        q: query
-      }
-    })
-    
-    this.http.get('http://localhost:3000/posts',{
-      params
-    })
-    .subscribe( posts => this.posts = posts)
+    this.posts$ = this.searchSerivce.search(query)
   }
 
-  constructor(private http:HttpClient) { }
+  constructor(private searchSerivce:SearchService) { }
 
   ngOnInit() {
   }
