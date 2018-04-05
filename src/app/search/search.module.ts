@@ -5,13 +5,17 @@ import { SearchFormComponent } from './search-form.component';
 import { ResultsListComponent } from './results-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchService } from './search.service';
+import { PostEditorComponent } from './post-editor.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  declarations: [SearchComponent, SearchFormComponent, ResultsListComponent],
+  declarations: [SearchComponent, SearchFormComponent, ResultsListComponent, PostEditorComponent],
   exports: [SearchComponent],
   providers: [SearchService]
 })

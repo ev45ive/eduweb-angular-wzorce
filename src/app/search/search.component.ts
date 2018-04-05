@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { SearchService } from './search.service';
 
+interface Post {
+  id: number;
+  title: string;
+}
+
 @Component({
   selector: 'search',
   template: `
@@ -12,23 +17,36 @@ import { SearchService } from './search.service';
     </div>
     <div class="row">
       <div class="col">
-        <results-list [items]="posts$ | async"></results-list>
+        <results-list [items]="source.results | async" (selectedChange)="selected = $event"></results-list>
+      </div>
+      <div class="col">
+        <post-editor *ngIf="selected" [post]="selected" (saved)="save($event)"></post-editor>
       </div>
     </div>
   `,
+  providers: [
+    {
+      provide: SearchService,
+      useClass: SearchService
+    }
+  ],
   styles: []
 })
 export class SearchComponent implements OnInit {
+  
+  selected:Post
 
-  posts
-
-  posts$
-
-  search(query){
-    this.posts$ = this.searchSerivce.search(query)
+  search(query) {
+    this.source.search(query)
   }
 
-  constructor(private searchSerivce:SearchService) { }
+  save(post){
+    this.source.save(post)
+  }
+
+  constructor(protected source: SearchService<Post, 'id'>) {
+
+  }
 
   ngOnInit() {
   }
