@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ProfileModule } from './profile/profile.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { ProfileModule } from './profile/profile.module';
   ],
   imports: [
     BrowserModule,
-    ProfileModule
+    ProfileModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
