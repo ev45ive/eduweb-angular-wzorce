@@ -9,7 +9,7 @@ import { User } from './models/user';
       <h3>User Profile</h3>
       <dl class="row">
         <dt class="col-3">Name</dt>
-        <dd class="col-9">{{profile.name}}</dd>
+        <dd class="col-9" >{{profile.name}}</dd>
         <dt class="col-3">Username</dt>
         <dd class="col-9">{{profile.username}}</dd>
         <dt class="col-3">E-Mail</dt>
@@ -26,8 +26,9 @@ export class ProfileComponent implements OnInit {
   constructor(private profileService:ProfileService) { }
 
   ngOnInit() {
-    this.profileService.getUserProfile()
-    .subscribe(user =>{
+    const profile$ = this.profileService.getUserProfile()
+    
+    profile$.subscribe(user =>{
       this.profile = user
     })
   }
