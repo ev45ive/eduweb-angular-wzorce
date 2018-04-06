@@ -7,10 +7,14 @@ import { User } from './models/user';
   template: `
     <div *ngIf="profile">
       <h3>User Profile</h3>
-      <p>Name:</p>
-      <p>{{profile.name}}</p>
-      <p>Username:</p>
-      <p>{{profile.username}}</p>
+      <dl class="row">
+        <dt class="col-3">Name</dt>
+        <dd class="col-9">{{profile.name}}</dd>
+        <dt class="col-3">Username</dt>
+        <dd class="col-9">{{profile.username}}</dd>
+        <dt class="col-3">E-Mail</dt>
+        <dd class="col-9">{{profile.email}}</dd>
+      </dl>
     </div>
   `,
   styles: []
