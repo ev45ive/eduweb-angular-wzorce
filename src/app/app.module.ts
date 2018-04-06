@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { SearchModule } from './search/search.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { SearchModule } from './search/search.module';
   ],
   imports: [
     BrowserModule,
-    SearchModule
+    SearchModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

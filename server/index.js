@@ -49,7 +49,8 @@ server.post('/login', (req, res, next) => {
 
   res.jsonp({
     token,
-    user
+    user,
+    roles: user.roles
   })
 })
 
