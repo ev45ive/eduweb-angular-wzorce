@@ -10,7 +10,8 @@ import { Todo } from './models/todo';
       <div class="col">
         <h3>Search Todos</h3>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" (keyup.enter)="search($event.target.value)" placeholder="Search ...">
+          <input type="text" class="form-control" (keyup.enter)="search($event.target.value)" placeholder="Search ..."
+          [value]="todosService.params.getValue().query">
         </div>
         <div class="list-group">
           <div class="list-group-item" *ngFor="let todo of todos | async">
@@ -21,14 +22,20 @@ import { Todo } from './models/todo';
           <div class="input-group-prepend">
             <div class="input-group-text">Showing</div>
           </div>
-          <select class="form-control" (change)="todosService.setPerPage($event.target.value)">
+          <input type="number" class="form-control" 
+            (change)="todosService.setPage($event.target.value)" 
+            min="1" 
+            [value]="todosService.params.getValue().page" 
+            [max]="todosService.state.pages">
+          <select class="form-control" (change)="todosService.setPerPage($event.target.value)" [value]="todosService.params.getValue().perpage">
+            <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
           </select>
           <div class="input-group-append">
             <div class="input-group-text">
-                of {{ (todos | async)?.length || 0 }} todos
+                of {{ todosService.state.total || 0 }} todos
             </div>
           </div>
         </div>
