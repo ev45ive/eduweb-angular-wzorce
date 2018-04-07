@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-interface Credentials{
+interface Credentials {
   username:string;
   password: string;
 }
