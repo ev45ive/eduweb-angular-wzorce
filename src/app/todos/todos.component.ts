@@ -4,14 +4,23 @@ import { TodosService } from './todos.service';
 @Component({
   selector: 'todos',
   template: `
-    <div>
-      <div class="alert alert-danger" *ngIf="error">{{error}}</div>
-
-      <h3>Create Todo</h3>
-      <div class="form-group">
-        <input type="text" class="form-control" #titleRef>
+    <div class="row">
+      <div class="col">
+        <div class="list-group">
+          <div class="list-group-item" *ngFor="let todo of todos | async">
+            {{todo.title}}
+          </div>
+        </div>
       </div>
-      <button class="btn btn-success" (click)="addTodo(titleRef.value)">Add Todo</button>
+      <div class="col">  
+        <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+
+        <h3>Create Todo</h3>
+        <div class="form-group">
+          <input type="text" class="form-control" #titleRef>
+        </div>
+        <button class="btn btn-success" (click)="addTodo(titleRef.value)">Add Todo</button>
+      </div>
     </div>
   `,
   styles: []
@@ -32,6 +41,8 @@ export class TodosComponent implements OnInit {
         console.log('completed')
       })
   }
+
+  todos = this.todosService.queryTodos()
 
   constructor(private todosService: TodosService) { }
 
