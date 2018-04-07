@@ -15,7 +15,7 @@ import { AuthService } from './auth.service';
       </div>
       <div class="form-group">
         <label for="">Password:</label>
-        <input type="text" class="form-control" formControlName="password">
+        <input type="password" class="form-control" formControlName="password">
       </div>
       <input type="submit" class="btn btn-success mx-auto">
     </form>
@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
   message: string;
 
   loginForm = this.fb.group({
-    username:[''],
-    password:['']
+    username:['eduuser'],
+    password:['test']
   })
 
   constructor(private fb:FormBuilder,
