@@ -24,7 +24,16 @@ export class AuthService {
 
   private session = new BehaviorSubject<Session>(null)
 
-  constructor(private http: HttpClient) { }
+  private authenticated:boolean
+
+  private accessToken:string
+
+  constructor(private http: HttpClient) {
+    this.session.subscribe(session =>{
+      this.authenticated = !!session || false
+      this.accessToken = session && session.token
+    })
+   }
 
   getSession() {
     return this.session.asObservable()
@@ -38,9 +47,7 @@ export class AuthService {
   }
 
   getToken() {
-    return this.getSession().pipe(
-      map(session => session && session.token)
-    )
+    return this.accessToken
   }
   //#endregion
 
@@ -57,7 +64,6 @@ export class AuthService {
   }
 
   logout() {
-    console.log('logout')
     this.session.next(null)
   }
 }

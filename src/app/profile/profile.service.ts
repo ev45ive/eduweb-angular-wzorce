@@ -22,13 +22,14 @@ export class ProfileService {
       this.user_request = 
       this.auth.getCurrentUser()
       .pipe(
-        // map(user => user.id),
-        // switchMap(id => 
-        //   this.http.get<User>(this.api_url + id)
-        // )
+        filter(user=>!!user),
+        map(user => user.id),
+        switchMap(id => 
+          this.http.get<User>(this.api_url + id)
+        )
       )
       .pipe(
-        // shareReplay()
+        shareReplay()
       )
     }
 
