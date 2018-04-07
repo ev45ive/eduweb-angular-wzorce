@@ -1,14 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { TodosService } from './todos.service';
+import { Observable } from 'rxjs/Observable';
+import { Todo } from './models/todo';
 
 @Component({
   selector: 'todos',
   template: `
     <div class="row">
       <div class="col">
+        <h3>Search Todos</h3>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" (keyup.enter)="search($event.target.value)" placeholder="Search ...">
+        </div>
         <div class="list-group">
           <div class="list-group-item" *ngFor="let todo of todos | async">
             {{todo.title}}
+          </div>
+        </div>        
+        <div class="input-group mt-3" *ngIf="todos | async">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Showing</div>
+          </div>
+          <select class="form-control" (change)="todosService.setPerPage($event.target.value)">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+          </select>
+          <div class="input-group-append">
+            <div class="input-group-text">
+                of {{ (todos | async)?.length || 0 }} todos
+            </div>
           </div>
         </div>
       </div>
@@ -27,7 +48,16 @@ import { TodosService } from './todos.service';
 })
 export class TodosComponent implements OnInit {
 
+  todos = this.todosService.getTodos()
+
   error: boolean;
+
+  search(query) {
+   this.todosService.query(query)
+  }
+
+
+  constructor(protected todosService: TodosService) { }
 
   addTodo(title) {
     this.todosService.createTodo({
@@ -42,9 +72,6 @@ export class TodosComponent implements OnInit {
       })
   }
 
-  todos = this.todosService.queryTodos()
-
-  constructor(private todosService: TodosService) { }
 
   ngOnInit() {
   }

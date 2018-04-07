@@ -59,12 +59,12 @@ export class AuthService {
         this.session.next(session)
 
         // Simulate Token expiration
-        setTimeout(() => {
-          this.session.next({
-            ...this.session.getValue(),
-            token: 'OLD_INVALID_TOKEN'
-          })
-        }, 1000)
+        // setTimeout(() => {
+        //   this.session.next({
+        //     ...this.session.getValue(),
+        //     token: 'OLD_INVALID_TOKEN'
+        //   })
+        // }, 1000)
       },
         error => {
           if (error instanceof HttpErrorResponse) {

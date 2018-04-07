@@ -12,7 +12,7 @@ export class AppComponent {
 
   constructor(protected auth:AuthService){
     this.auth.state.subscribe( 
-      authorized => this.tab = authorized? 'profile' : 'login'
+      authorized => this.tab = authorized? 'todos' : 'login'
     )
   }
 }
