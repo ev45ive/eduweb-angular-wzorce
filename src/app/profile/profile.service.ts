@@ -4,9 +4,10 @@ import { User } from './models/user';
 import { Subject } from 'rxjs/Subject'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { ReplaySubject } from 'rxjs/ReplaySubject'
-import {multicast, refCount, share, shareReplay } from 'rxjs/operators'
+import {multicast, refCount, share, shareReplay, switchMap, filter, tap } from 'rxjs/operators'
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class ProfileService {
@@ -18,8 +19,14 @@ export class ProfileService {
   getUserProfile(){
 
     if(!this.user_request){
-      this.user_request = this.http
-      .get<User>(this.api_url + '1')
+      this.user_request = 
+      this.auth.getUserId()
+      .pipe(
+        tap(console.log),
+        switchMap(id => this.http
+          .get<User>(this.api_url + id)
+        )
+      )
       .pipe(
         shareReplay()
       )
@@ -32,7 +39,8 @@ export class ProfileService {
     this.user_request = null
   }
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient,
+            private auth:AuthService) {
 
     // setInterval(()=>{
     //   this.clearCache()
