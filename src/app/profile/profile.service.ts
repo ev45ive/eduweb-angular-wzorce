@@ -8,6 +8,7 @@ import {multicast, refCount, share, shareReplay, switchMap, filter, tap, map } f
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../auth/auth.service';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class ProfileService {
@@ -22,13 +23,9 @@ export class ProfileService {
       this.user_request = 
       this.auth.getCurrentUser()
       .pipe(
-        filter(user=>!!user),
-        map(user => user.id),
-        switchMap(id => 
-          this.http.get<User>(this.api_url + id)
-        )
-      )
-      .pipe(
+        switchMap(user => user? 
+          this.http.get<User>(this.api_url + user.id) : of(null)
+        ),
         shareReplay()
       )
     }
