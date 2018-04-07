@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { pluck, filter, map } from 'rxjs/operators';
+import { pluck, filter, map, tap, shareReplay, multicast } from 'rxjs/operators';
 import { User } from '../profile/models/user';
+import { Observable } from 'rxjs/Observable';
+import { empty } from 'rxjs/observable/empty';
+import { of } from 'rxjs/observable/of';
 
 interface Credentials {
-  username:string;
+  username: string;
   password: string;
+}
+
+interface Session {
+  token: string;
+  user: User;
 }
 
 @Injectable()
@@ -14,38 +22,42 @@ export class AuthService {
 
   url = 'http://localhost:3000/login'
 
-  private token
+  private session = new BehaviorSubject<Session>(null)
 
-  private user = new BehaviorSubject(null)
+  constructor(private http: HttpClient) { }
 
-  getUserId(){
-    return this.user.pipe(
-      filter(user => !!user),
-      map(user => user.id),
+  getSession() {
+    return this.session.asObservable()
+  }
+
+  //#region 
+  getCurrentUser() {
+    return this.getSession().pipe(
+      map(session => session && session.user)
     )
   }
 
-  getToken(){
-    return this.token
+  getToken() {
+    return this.getSession().pipe(
+      map(session => session && session.token)
+    )
+  }
+  //#endregion
+
+  login(credentials: Credentials) {
+    return this.http
+      .post<Session>(this.url, credentials)
+      .pipe(
+        tap( session => {
+          this.session.next(session)
+        }, error => {
+          this.logout()
+        })
+      )
   }
 
-  login(credentials:Credentials){
-    this.http.post<{
-      token:string,
-      user:User
-    }>(this.url,credentials)
-      .subscribe(response => {
-        this.token = response.token
-        this.user.next(response.user)
-      },
-      error => {
-        if(error instanceof HttpErrorResponse){
-          console.error(error.error)
-          this.user.next(null)
-        }
-      })
+  logout() {
+    console.log('logout')
+    this.session.next(null)
   }
-
-  constructor(private http:HttpClient) { }
-
 }
