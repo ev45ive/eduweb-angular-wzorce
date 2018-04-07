@@ -11,7 +11,8 @@ interface Credentials {
 
 interface Session {
   token: string;
-  user: User
+  user: User;
+  message?: string;
 }
 
 @Injectable()
@@ -21,27 +22,49 @@ export class AuthService {
 
   private session = new BehaviorSubject<Session>(null)
 
-  isAuthenticated = false 
-  
+  isAuthenticated = false
+
   state = this.session.pipe(
-    map( session => !!session),
-    tap( state => this.isAuthenticated = state )
+    map(session => session && !!session.token),
+    tap(state => this.isAuthenticated = state)
   )
 
-  getToken(){
+  logout(message?: string) {
+    // this.http.post('/logout')
+    this.session.next({
+      ...this.session.getValue(),
+      token: null,
+      message
+    })
+  }
+
+  getToken() {
     const session = this.session.getValue()
     return session && session.token
   }
 
-  getCurrentUser(){
+  getCurrentUser() {
     const session = this.session.getValue()
     return session && session.user
+  }
+  
+  getMessage(){
+    const session = this.session.getValue()
+    return session && session.message    
   }
 
   login(credentials: Credentials) {
     this.http.post(this.url, credentials)
-      .subscribe((session:Session) => {
+      .subscribe((session: Session) => {
         this.session.next(session)
+
+        // Simulate Token expiration
+        setTimeout(() => {
+          this.session.next({
+            ...this.session.getValue(),
+            token: 'OLD_INVALID_TOKEN'
+          })
+        }, 1000)
       },
         error => {
           if (error instanceof HttpErrorResponse) {

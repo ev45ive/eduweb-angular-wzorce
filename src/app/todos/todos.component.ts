@@ -5,6 +5,8 @@ import { TodosService } from './todos.service';
   selector: 'todos',
   template: `
     <div>
+      <div class="alert alert-danger" *ngIf="error">{{error}}</div>
+
       <h3>Create Todo</h3>
       <div class="form-group">
         <input type="text" class="form-control" #titleRef>
@@ -16,18 +18,22 @@ import { TodosService } from './todos.service';
 })
 export class TodosComponent implements OnInit {
 
-  addTodo(title){
-   this.todosService.createTodo({
-     title
-   })
-   .subscribe(()=>{
-     console.log('success!')
-   },err=>{
-     
-   })
+  error: boolean;
+
+  addTodo(title) {
+    this.todosService.createTodo({
+      title
+    })
+      .subscribe(() => {
+        console.log('success!')
+      }, err => {
+        this.error = err.message
+      }, () => {
+        console.log('completed')
+      })
   }
 
-  constructor(private todosService:TodosService) { }
+  constructor(private todosService: TodosService) { }
 
   ngOnInit() {
   }

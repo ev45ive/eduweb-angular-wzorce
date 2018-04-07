@@ -6,6 +6,8 @@ import { AuthService } from './auth.service';
   selector: 'login',
   template: `
     <h3>Login</h3>
+    <div class="alert alert-danger" *ngIf="message">{{message}}</div>
+    
     <form [formGroup]="loginForm" (submit)="login()">
       <div class="form-group">
         <label for="">Username:</label>
@@ -22,6 +24,8 @@ import { AuthService } from './auth.service';
 })
 export class LoginComponent implements OnInit {
 
+  message: string;
+
   loginForm = this.fb.group({
     username:[''],
     password:['']
@@ -35,6 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.message = this.auth.getMessage()
   }
 
 }

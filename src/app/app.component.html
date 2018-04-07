@@ -1,27 +1,36 @@
 <nav class="navbar navbar-expand navbar-light bg-light justify-content-between">
   <div class="container">
-      <div class="navbar-collapse">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" (click)="tab = '' ">
-                Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" (click)="tab = 'profile' ">
-                Profile
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" (click)="tab = 'todos' ">
-                Todos
-              </a>
-            </li>
-        </ul>
-      </div>
-      <span class="navbar-text"  *ngIf="tab != 'profile'">
-        <profile-bar></profile-bar>
-      </span>
+    <div class="navbar-collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" (click)="tab = '' ">
+            Home
+          </a>
+        </li>
+        <ng-container *ngIf="auth.isAuthenticated">
+          <li class="nav-item">
+            <a class="nav-link" (click)="tab = 'profile' ">
+              Profile
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="tab = 'todos' ">
+              Todos
+            </a>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="!auth.isAuthenticated">
+        <li class="nav-item">
+          <a class="nav-link" (click)="tab = 'login' ">
+            Login
+          </a>
+        </li>
+      </ng-container>
+      </ul>
+    </div>
+    <span class="navbar-text" *ngIf="auth.isAuthenticated">
+      <profile-bar></profile-bar>
+    </span>
   </div>
 </nav>
 
@@ -33,8 +42,11 @@
     <div class="col" *ngIf="tab == 'todos'">
       <todos></todos>
     </div>
-    <div class="col-10 mx-auto" *ngIf="tab == '' ">
+    <div class="col-10 mx-auto" *ngIf="tab == 'login' ">
       <login></login>
+    </div>
+    <div class="col" *ngIf="tab == ''">
+      <h4>Welcome!</h4>
     </div>
   </div>
 </div>
