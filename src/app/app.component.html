@@ -12,6 +12,11 @@
                 Profile
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="tab = 'todos' ">
+                Todos
+              </a>
+            </li>
         </ul>
       </div>
       <span class="navbar-text"  *ngIf="tab != 'profile'">
@@ -24,6 +29,9 @@
   <div class="row">
     <div class="col" *ngIf="tab == 'profile'">
       <profile></profile>
+    </div>
+    <div class="col" *ngIf="tab == 'todos'">
+      <todos></todos>
     </div>
     <div class="col-10 mx-auto" *ngIf="tab == '' ">
       <login></login>

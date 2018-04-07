@@ -62,7 +62,7 @@ server.post('/login', (req, res, next) => {
 */
 server.use((req, res, next) => {
   if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
-    const token = req.get('Authorization').replace('Bearer ', '')
+    const token = (req.get('Authorization') || '').replace('Bearer ', '')
     const user = jwt.decode(token)
 
     if (!user) {
