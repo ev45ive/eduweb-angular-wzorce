@@ -7,6 +7,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PageNotFoundComponent } from './navigation/page-not-found.component';
 import { QuickTodoComponent } from './todos/quick-todo.component';
+import { AuthorizedGuard } from './auth/authorized.guard';
 
 const routes: Routes = [
   {
@@ -23,7 +24,10 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate:[
+      AuthorizedGuard
+    ],
   },
   {
     path:'not-found',
@@ -49,7 +53,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      // enableTracing: true,
+      enableTracing: true,
       // useHash: true,
       // errorHandler:()=>{},
       onSameUrlNavigation:'reload',

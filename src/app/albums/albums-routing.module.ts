@@ -3,10 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { AlbumsComponent } from './albums.component';
 import { AlbumComponent } from './album.component';
 import { ListComponent } from './list.component';
+import { AuthorizedGuard } from '../auth/authorized.guard';
 
 const routes: Routes = [
   {
     path: 'albums',
+    canActivateChild:[
+      AuthorizedGuard
+    ],
     children: [
       {
         path: '',

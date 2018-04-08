@@ -12,7 +12,8 @@ import { tap } from 'rxjs/operators';
     <span (click)="auth.logout()"> | Logout </span>
   </ng-container>
   <ng-container *ngIf="!auth.isAuthenticated">
-    <span> Login </span> | <span> Register </span> 
+    <span routerLink="/login"> Login </span> | 
+    <span  routerLink="/registration"> Register </span> 
   </ng-container>
   `,
   styles: []

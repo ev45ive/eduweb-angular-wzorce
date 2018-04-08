@@ -5,6 +5,7 @@ import { TodosService } from './todos.service';
 import { TodosRoutingModule } from './todos.routing.module';
 import { QuickTodoComponent } from './quick-todo.component';
 import { FormsModule } from '@angular/forms';
+import { TodoGuardGuard } from './todo-guard.guard';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   declarations: [TodosComponent, QuickTodoComponent],
-  providers: [TodosService],
+  providers: [TodosService, TodoGuardGuard],
   exports: [QuickTodoComponent]
 })
 export class TodosModule { }

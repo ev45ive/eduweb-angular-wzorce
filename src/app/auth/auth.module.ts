@@ -5,11 +5,14 @@ import { LoginComponent } from './login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptorService } from './auth-interceptor.service';
+import { AuthorizedGuard } from './authorized.guard';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forChild([])
   ],
   declarations: [LoginComponent],
   providers: [
@@ -17,8 +20,9 @@ import { AuthInterceptorService } from './auth-interceptor.service';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
-      multi: true
-    }
+      multi: true,
+    },
+    AuthorizedGuard
   ],
   exports: [LoginComponent]
 })
