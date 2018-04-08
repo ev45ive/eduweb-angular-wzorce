@@ -14,18 +14,14 @@ import { AlbumsService } from './albums.service';
 })
 export class AlbumComponent implements OnInit {
 
-  album_id = this.route.paramMap.pipe(
-    map(params => params.get('id')
-  ))
-
-  album = this.album_id.pipe(
-    switchMap(id => this.albumsService.getAlbum(+id))
+  album = this.route.data.pipe(
+    map(data => data.album)
   )
 
-  constructor(private route:ActivatedRoute,
-      private albumsService:AlbumsService) { }
+  constructor(
+    private route:ActivatedRoute
+  ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

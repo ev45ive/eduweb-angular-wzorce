@@ -4,6 +4,7 @@ import { AlbumsComponent } from './albums.component';
 import { AlbumComponent } from './album.component';
 import { ListComponent } from './list.component';
 import { AuthorizedGuard } from '../auth/authorized.guard';
+import { AlbumResolve } from './resolves/album-resolve';
 
 const routes: Routes = [
   {
@@ -26,6 +27,9 @@ const routes: Routes = [
       {
         path: ':id',
         component: AlbumsComponent,
+        resolve:{
+          'album': AlbumResolve
+        },
         children: [
           {
             path: '',
@@ -34,7 +38,7 @@ const routes: Routes = [
           },
           {
             path: '',
-            component: AlbumComponent
+            component: AlbumComponent,
           },
         ]
       }

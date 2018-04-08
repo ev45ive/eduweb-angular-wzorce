@@ -6,6 +6,7 @@ import { AlbumsComponent } from './albums.component';
 import { ListComponent } from './list.component';
 import { AlbumComponent } from './album.component';
 import { AlbumsService } from './albums.service';
+import { AlbumResolve } from './resolves/album-resolve';
 
 @NgModule({
   imports: [
@@ -13,6 +14,9 @@ import { AlbumsService } from './albums.service';
     AlbumsRoutingModule
   ],
   declarations: [AlbumsComponent, ListComponent, AlbumComponent],
-  providers: [AlbumsService]
+  providers: [
+    AlbumsService,
+    AlbumResolve,
+  ]
 })
 export class AlbumsModule { }
