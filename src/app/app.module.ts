@@ -11,6 +11,7 @@ import { TodosModule } from './todos/todos.module';
 import { AppRoutingModule } from './app.routing.module';
 import { HomeComponent } from './navigation/home.component';
 import { PageNotFoundComponent } from './navigation/page-not-found.component';
+import { PostsModule } from './posts/posts.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PageNotFoundComponent } from './navigation/page-not-found.component';
     RegistrationModule,
     ProfileModule,
     TodosModule,
-    AppRoutingModule
+    PostsModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
