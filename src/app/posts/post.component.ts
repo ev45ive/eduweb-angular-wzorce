@@ -20,6 +20,13 @@ import { Comment } from './models/comment';
       <p class="mb-0">{{comment.body}}</p>
       <div class="blockquote-footer">{{comment.email}}</div>
     </div>
+    
+    <div class="d-flex justify-content-around" *ngIf="page|async as page">
+      <a routerLink="./" [queryParams]="{page: page - 1}">&laquo;</a>
+      <a routerLink="./" [queryParams]="{page: page + 1}">&raquo;</a>
+    </div>
+
+    <a routerLink="../" class="d-flex flex-row-reverse">... Go back to posts</a>
 
    </ng-container>
   `,

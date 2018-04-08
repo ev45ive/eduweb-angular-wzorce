@@ -13,6 +13,8 @@ import { HomeComponent } from './navigation/home.component';
 import { PageNotFoundComponent } from './navigation/page-not-found.component';
 import { PostsModule } from './posts/posts.module';
 import { AlbumsModule } from './albums/albums.module';
+import { AuthService } from './auth/auth.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 
 @NgModule({
@@ -35,4 +37,25 @@ import { AlbumsModule } from './albums/albums.module';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {
+    this.auth.state.subscribe( state => {
+      if(this.auth.isAuthenticated){
+        // this.router.navigate(['/profile'])
+      }else{
+        this.router.navigate(['/login'])
+      }
+    })
+
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd){
+        // ..
+      }
+    })
+
+  }
+}

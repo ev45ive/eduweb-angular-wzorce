@@ -8,20 +8,35 @@ import { AuthService } from '../auth/auth.service';
   <div class="container">
     <div class="navbar-collapse">
       <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#/">
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <a class="nav-link" routerLink="/">
             Home
           </a>
         </li>
-        <ng-container *ngIf="auth.isAuthenticated">
-          <li class="nav-item">
-            <a class="nav-link" href="#/profile">
+        <ng-container>
+          <li class="nav-item"  routerLinkActive="active">
+            <a class="nav-link" routerLink="/profile">
               Profile
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#/todos">
+          <li class="nav-item"  routerLinkActive="active">
+            <a class="nav-link" routerLink="/todos">
               Todos
+            </a>
+          </li>
+          <li class="nav-item"  routerLinkActive="active">
+            <a class="nav-link" routerLink="/posts">
+              Posts
+            </a>
+          </li>
+          <li class="nav-item"  routerLinkActive="active">
+            <a class="nav-link" routerLink="/albums">
+              Albums
+            </a>
+          </li>
+          <li class="nav-item"  routerLinkActive="active">
+            <a class="nav-link" [routerLink]="[{ outlets: { popup: ['quick-todo'] } }]">
+              Quick Todo
             </a>
           </li>
         </ng-container>

@@ -5,7 +5,7 @@ import { PostService } from './post.service';
   selector: 'posts',
   template: `
     <div class="card-deck justify-content-around">
-      <div class="card text-center mb-2" *ngFor="let post of posts | async">
+      <div class="card text-center mb-2" *ngFor="let post of posts | async" [routerLink]="[post.id]">
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
           <div class="card-text">{{post.body | slice:0:20}}</div>

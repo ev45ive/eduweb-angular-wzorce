@@ -6,6 +6,7 @@ import { LoginComponent } from './auth/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PageNotFoundComponent } from './navigation/page-not-found.component';
+import { QuickTodoComponent } from './todos/quick-todo.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,11 @@ const routes: Routes = [
     component: PageNotFoundComponent
   },
   {
+    path:'quick-todo',
+    component: QuickTodoComponent,
+    outlet:'popup'
+  },
+  {
     path: '',
     redirectTo:'home',
     pathMatch:'full'
@@ -43,8 +49,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      enableTracing: true,
-      useHash: true,
+      // enableTracing: true,
+      // useHash: true,
       // errorHandler:()=>{},
       onSameUrlNavigation:'reload',
       // initialNavigation:true,
