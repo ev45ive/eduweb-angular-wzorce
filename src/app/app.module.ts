@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { HomeComponent } from './navigation/home.component';
 import { PageNotFoundComponent } from './navigation/page-not-found.component';
 import { PostsModule } from './posts/posts.module';
+import { AlbumsModule } from './albums/albums.module';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { PostsModule } from './posts/posts.module';
     ProfileModule,
     TodosModule,
     PostsModule,
+    AlbumsModule,
     AppRoutingModule,
   ],
   providers: [],
