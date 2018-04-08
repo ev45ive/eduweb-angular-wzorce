@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'posts',
   template: `
     <p>
-      posts works!
+      post works!
     </p>
   `,
   styles: []

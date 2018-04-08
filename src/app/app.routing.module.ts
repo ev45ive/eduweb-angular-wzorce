@@ -46,6 +46,7 @@ const routes: Routes = [
       enableTracing: true,
       useHash: true,
       // errorHandler:()=>{},
+      onSameUrlNavigation:'reload',
       // initialNavigation:true,
     })
   ],
