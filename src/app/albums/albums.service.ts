@@ -17,4 +17,8 @@ export class AlbumsService {
     return this.http.get<Album>(this.url + id)
   }
 
+  getAlbumPhotos(album_id:number){
+    return this.http.get<Album>(this.url + album_id + '/photos')
+  }
+
 }
