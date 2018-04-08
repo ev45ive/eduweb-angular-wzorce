@@ -10,12 +10,14 @@ import { Comment } from './models/comment';
   selector: 'post',
   template: `
    <ng-container *ngIf="post | async as post">
-    <h3>{{post.title}}</h3>
+    <h2>{{post.title}}</h2>
     <p>{{post.body}}</p>
+
+    <hr>
 
     <h4>Comment</h4>
     <div class="blockquote" *ngFor="let comment of comments | async">
-      <p>{{comment.body}}</p>
+      <p class="mb-0">{{comment.body}}</p>
       <div class="blockquote-footer">{{comment.email}}</div>
     </div>
 
@@ -28,8 +30,11 @@ export class PostComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private postsService: PostService) { }
 
-  post = this.route.paramMap.pipe(
-    map(params => +params.get('id')),
+  post_id = this.route.paramMap.pipe(
+    map(params => +params.get('id'))
+  )
+
+  post = this.post_id.pipe(
     switchMap(id => this.postsService.getPost(id))
   )
 
@@ -37,9 +42,12 @@ export class PostComponent implements OnInit {
     map(params => +params.get('page')),
   )
 
-  comments = this.post.pipe(
-    combineLatest(this.page),
-    switchMap(([post, page]) => this.postsService.getPostComments(post.id, page))
+  params = this.post_id.pipe(
+    combineLatest(this.page)
+  )
+
+  comments = this.params.pipe(
+    switchMap(([post_id, page]) => this.postsService.getPostComments(post_id, page))
   )
 
   ngOnInit() { }

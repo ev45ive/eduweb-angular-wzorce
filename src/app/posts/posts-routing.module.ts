@@ -9,7 +9,7 @@ const routes: Routes = [
     component: PostsComponent
   },
   {
-    path:'post/:id',
+    path:'posts/:id',
     component: PostComponent
   }
 ];
