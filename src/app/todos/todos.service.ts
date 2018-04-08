@@ -6,7 +6,7 @@ import { catchError, share, map, switchMap, filter, tap } from 'rxjs/operators';
 import { empty } from 'rxjs/observable/empty'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-interface Params{
+interface Params {
   perpage: number;
   page: number;
   query: string;
@@ -18,46 +18,46 @@ export class TodosService {
   url = 'http://localhost:3000/todos/'
 
   params = new BehaviorSubject<Params>({
-    query:'',
-    perpage:10,
+    query: '',
+    perpage: 5,
     page: 1,
   })
 
   createTodo(todo: Partial<Todo>) {
     return this.http.post<Todo>(this.url, todo).pipe(
-      tap(()=>{
-        this.params.next( this.params.getValue() )
+      tap(() => {
+        this.params.next(this.params.getValue())
       })
     )
   }
 
-  setPerPage(perpage:number){
+  setPerPage(perpage: number) {
     this.params.next({
       ...this.params.getValue(),
       perpage
     })
   }
 
-  setPage(page:number){
+  setPage(page: number) {
     this.params.next({
       ...this.params.getValue(),
       page
     })
   }
-  
+
   state = {
     total: 0,
     pages: 1
   }
 
-  setTotal(total:number){
+  setTotal(total: number) {
     this.state = {
       total,
       pages: Math.ceil(total / this.params.getValue().perpage)
     }
   }
 
-  query(query){
+  query(query) {
     this.params.next({
       ...this.params.getValue(),
       query
@@ -69,24 +69,24 @@ export class TodosService {
   getTodos() {
     return this.params.pipe(
       filter(params => !!params.query),
-      switchMap( params => this.http.get<Todo[]>(this.url,{
-        params:{
+      switchMap(params => this.http.get<Todo[]>(this.url, {
+        params: {
           q: params.query,
-          _limit: ""+params.perpage,
-          _page: ""+params.page
+          _limit: "" + params.perpage,
+          _page: "" + params.page
         },
-        observe:'response',
+        observe: 'response',
         // reportProgress:true
         // responseType:'arraybuffer'
         // withCredentials:true
       })),
-      map( (response:HttpResponse<Todo[]>) => {
+      map((response: HttpResponse<Todo[]>) => {
         this.setTotal(parseInt(response.headers.get(this.totalCountHeader)))
         return response.body
       }),
       share()
     )
-  } 
+  }
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 

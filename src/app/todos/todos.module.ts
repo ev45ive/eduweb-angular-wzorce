@@ -4,11 +4,13 @@ import { TodosComponent } from './todos.component';
 import { TodosService } from './todos.service';
 import { TodosRoutingModule } from './todos.routing.module';
 import { QuickTodoComponent } from './quick-todo.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    TodosRoutingModule
+    TodosRoutingModule,
+    FormsModule
   ],
   declarations: [TodosComponent, QuickTodoComponent],
   providers: [TodosService],

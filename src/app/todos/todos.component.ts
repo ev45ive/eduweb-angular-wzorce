@@ -20,13 +20,16 @@ import { Todo } from './models/todo';
         </div>        
         <div class="input-group mt-3" *ngIf="todos | async">
           <div class="input-group-prepend">
-            <div class="input-group-text">Showing</div>
+            <div class="input-group-text">Page:  </div>
           </div>
           <input type="number" class="form-control" 
             (change)="todosService.setPage($event.target.value)" 
             min="1" 
             [value]="todosService.params.getValue().page" 
             [max]="todosService.state.pages">
+            <div class="input-group-prepend">
+            <div class="input-group-text"> Per page:  </div>
+            </div>
           <select class="form-control" (change)="todosService.setPerPage($event.target.value)" [value]="todosService.params.getValue().perpage">
             <option value="5">5</option>
             <option value="10">10</option>
@@ -35,7 +38,7 @@ import { Todo } from './models/todo';
           </select>
           <div class="input-group-append">
             <div class="input-group-text">
-                of {{ todosService.state.total || 0 }} todos
+                Total: <strong> {{ todosService.state.total || 0 }} </strong>
             </div>
           </div>
         </div>
@@ -45,9 +48,9 @@ import { Todo } from './models/todo';
 
         <h3>Create Todo</h3>
         <div class="form-group">
-          <input type="text" class="form-control" #titleRef>
+          <input type="text" class="form-control" [(ngModel)]="title">
         </div>
-        <button class="btn btn-success" (click)="addTodo(titleRef.value)">Add Todo</button>
+        <button class="btn btn-success" (click)="addTodo()">Add Todo</button>
       </div>
     </div>
   `,
@@ -57,10 +60,16 @@ export class TodosComponent implements OnInit {
 
   todos = this.todosService.getTodos()
 
+  title:string
+
   error: boolean;
 
   search(query) {
    this.todosService.query(query)
+  }
+
+  setError(error){
+    this.error = error
   }
 
 
@@ -68,10 +77,10 @@ export class TodosComponent implements OnInit {
 
   addTodo(title) {
     this.todosService.createTodo({
-      title
+      title: this.title
     })
       .subscribe(() => {
-        console.log('success!')
+        this.title = ''
       }, err => {
         this.error = err.message
       }, () => {
