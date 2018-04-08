@@ -2,21 +2,40 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AlbumsComponent } from './albums.component';
 import { AlbumComponent } from './album.component';
+import { ListComponent } from './list.component';
 
 const routes: Routes = [
   {
-    path:'albums',
-    component: AlbumsComponent,
-    children:[
+    path: 'albums',
+    children: [
       {
-        path:'',
-        component: AlbumComponent
+        path: '',
+        component: AlbumsComponent,
+        children:[
+          {
+            path:'',
+            component:ListComponent,
+            outlet:'list'
+          }
+        ]
       },
       {
-        path:':id',
-        component: AlbumComponent
+        path: ':id',
+        component: AlbumsComponent,
+        children: [
+          {
+            path: '',
+            component: ListComponent,
+            outlet: 'list'
+          },
+          {
+            path: '',
+            component: AlbumComponent
+          },
+        ]
       }
     ]
+
   }
 ];
 

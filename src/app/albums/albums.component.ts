@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   template: `
     <div class="row">
       <div class="col">
-        <list></list>
+        <router-outlet name="list"></router-outlet>
       </div>
       <div class="col">
         <router-outlet></router-outlet>

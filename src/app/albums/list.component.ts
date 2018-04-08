@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
             private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.firstChild.paramMap.pipe(
+    this.route.paramMap.pipe(
       map(params => params.get('id'))
     ).subscribe(id => {
       this.selectedId = +id
